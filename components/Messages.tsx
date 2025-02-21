@@ -14,12 +14,10 @@ const Messages = forwardRef<
 	return (
 		<motion.div
 			layoutScroll
-			className={"h-[calc(100vh-3.5rem)] overflow-auto p-4"}
+			className="h-[calc(100vh-3.5rem)] overflow-auto p-4 w-full relative"
 			ref={ref}
 		>
-			<motion.div
-				className={"max-w-2xl mx-auto w-full flex flex-col gap-4 pb-24"}
-			>
+			<motion.div className={"w-full flex flex-col gap-4 pb-24"}>
 				<AnimatePresence mode={"popLayout"}>
 					{messages.map((msg, index) => {
 						if (
@@ -56,7 +54,10 @@ const Messages = forwardRef<
 										{msg.message.role}
 									</div>
 									<div className={"pb-3 px-3"}>{msg.message.content}</div>
-									<Expressions values={msg.models.prosody?.scores} />
+									<Expressions
+										values={msg.models.prosody?.scores}
+										messageContent={msg.message.content}
+									/>
 								</motion.div>
 							);
 						}
