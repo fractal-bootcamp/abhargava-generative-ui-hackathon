@@ -13,17 +13,17 @@ export default function Expressions({
 	values: Hume.empathicVoice.EmotionScores | undefined;
 	messageContent?: string;
 }) {
-	if (!values) return;
-
-	const top3 = R.pipe(
-		values,
-		R.entries(),
-		R.sortBy(R.pathOr([1], 0)),
-		R.reverse(),
-		R.take(3),
-	);
-
 	useEffect(() => {
+		if (!values) return;
+
+		const top3 = R.pipe(
+			values,
+			R.entries(),
+			R.sortBy(R.pathOr([1], 0)),
+			R.reverse(),
+			R.take(3),
+		);
+
 		// Only log when values or messageContent changes
 		const timestamp = new Date().toISOString();
 		const emotionsLog = {
@@ -32,7 +32,17 @@ export default function Expressions({
 			emotions: Object.fromEntries(top3),
 		};
 		console.log("Emotions Log:", emotionsLog);
-	}, [messageContent, top3]);
+	}, [messageContent, values]);
+
+	if (!values) return null;
+
+	const top3 = R.pipe(
+		values,
+		R.entries(),
+		R.sortBy(R.pathOr([1], 0)),
+		R.reverse(),
+		R.take(3),
+	);
 
 	return (
 		<div
