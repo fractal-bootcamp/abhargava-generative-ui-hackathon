@@ -1,21 +1,10 @@
-<div align="center">
-  <img src="https://storage.googleapis.com/hume-public-logos/hume/hume-banner.png">
-  <h1>EVI Next.js App Router Example</h1>
-</div>
+# Thirst Trap Application
 
-![preview.png](preview.png)
+A simple app that uses the Hume API to generate a voice assistant that you talk to. Messages appear on the left. You are to have a conversation with the assistant and try not to laugh during the whole time. You can select from different configuratinos as you see fit from the dropdown (these will load different configuration models). 
 
-## Overview
+## Laughter Detection
 
-This project features a sample implementation of Hume's [Empathic Voice Interface](https://hume.docs.buildwithfern.com/docs/empathic-voice-interface-evi/overview) using Hume's React SDK. Here, we have a simple EVI that uses the Next.js App Router.
+We render the person's webcam in the right side of the screen. We use the Google MediaPipe Face Mesh model to detect the person's facial landmarks. We then use these landmarks to detect if the person is laughing. If they laugh, the game ends. 
 
-## Project deployment
 
-Click the button below to deploy this example project with Vercel:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhumeai%2Fhume-evi-next-js-starter&env=HUME_API_KEY,HUME_CLIENT_SECRET)
-
-Below are the steps to completing deployment:
-
-1. Create a Git Repository for your project.
-2. Provide the required environment variables. To get your API key and Client Secret key, log into the portal and visit the [API keys page](https://beta.hume.ai/settings/keys).

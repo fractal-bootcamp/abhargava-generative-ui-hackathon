@@ -29,7 +29,10 @@ export default function MicFFT({
 
 							return (
 								<motion.rect
-									key={`mic-fft-${index}`}
+									key={`mic-fft-${
+										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+										index
+									}`}
 									height={h}
 									width={2}
 									x={2 + (index * width - 4) / 24}
