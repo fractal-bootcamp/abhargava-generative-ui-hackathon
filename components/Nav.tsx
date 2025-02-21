@@ -11,7 +11,7 @@ export const Nav = async () => {
 		throw new Error("No access token");
 	}
 	return (
-		<div className="px-4 py-2 h-14 z-50 bg-card border-b border-border">
+		<div className="relative border-b border-border">
 			<Chat accessToken={accessToken} />
 		</div>
 	);

@@ -6,6 +6,14 @@ import Controls from "./Controls";
 import StartCall from "./StartCall";
 import { type ComponentRef, useRef } from "react";
 import { useGameStore } from "@/components/store/useGameStore";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
 
 export default function ClientComponent({
 	accessToken,
@@ -14,7 +22,7 @@ export default function ClientComponent({
 }) {
 	const timeout = useRef<number | null>(null);
 	const ref = useRef<ComponentRef<typeof Messages> | null>(null);
-	const configId = useGameStore((state) => state.configId);
+	const configId = useGameStore((state) => state.currentConfigId);
 
 	return (
 		<div className="relative flex flex-col max-w-full">
@@ -39,7 +47,7 @@ export default function ClientComponent({
 					}, 200);
 				}}
 			>
-				<div className="h-14">
+				<div className="h-14 flex items-center justify-between px-4 bg-card">
 					<StartCall />
 				</div>
 				<div className="flex-1 max-w-full">
