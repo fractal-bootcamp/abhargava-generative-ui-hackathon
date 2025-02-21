@@ -4,11 +4,14 @@ import { expressionColors, isExpressionColor } from "@/utils/expressionColors";
 import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
 import * as R from "remeda";
+import { useEffect } from "react";
 
 export default function Expressions({
 	values,
+	messageContent,
 }: {
 	values: Hume.empathicVoice.EmotionScores | undefined;
+	messageContent?: string;
 }) {
 	if (!values) return;
 
@@ -20,13 +23,16 @@ export default function Expressions({
 		R.take(3),
 	);
 
-	// Add timestamp and log the emotions
-	const timestamp = new Date().toISOString();
-	const emotionsLog = {
-		timestamp,
-		emotions: Object.fromEntries(top3),
-	};
-	console.log("Emotions Log:", emotionsLog);
+	useEffect(() => {
+		// Only log when values or messageContent changes
+		const timestamp = new Date().toISOString();
+		const emotionsLog = {
+			timestamp,
+			messageContent,
+			emotions: Object.fromEntries(top3),
+		};
+		console.log("Emotions Log:", emotionsLog);
+	}, [messageContent, top3]);
 
 	return (
 		<div
