@@ -16,6 +16,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			<head>
+				<script
+					src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js"
+					crossOrigin="anonymous"
+				/>
+			</head>
 			<body
 				className={cn(
 					GeistSans.variable,

@@ -1,9 +1,5 @@
 import { Nav } from "@/components/Nav";
-
-// const Chat = dynamic(() => import("@/components/Chat"), {
-// 	ssr: false,
-// });
-
+import { VideoCamera } from "@/components/VideoCamera";
 export default async function Page() {
 	return (
 		<div className="grow flex">
@@ -15,7 +11,7 @@ export default async function Page() {
 			{/* Right half */}
 			<div className="w-1/2 border-l border-border flex items-center justify-center">
 				<div className="p-4 bg-card border border-border rounded-lg">
-					Webcam and face detection will appear here
+					<VideoCamera />
 				</div>
 			</div>
 		</div>
