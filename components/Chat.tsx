@@ -4,45 +4,47 @@ import { VoiceProvider } from "@humeai/voice-react";
 import Messages from "./Messages";
 import Controls from "./Controls";
 import StartCall from "./StartCall";
-import { ComponentRef, useRef } from "react";
+import { type ComponentRef, useRef } from "react";
 
 export default function ClientComponent({
-  accessToken,
+	accessToken,
 }: {
-  accessToken: string;
+	accessToken: string;
 }) {
-  const timeout = useRef<number | null>(null);
-  const ref = useRef<ComponentRef<typeof Messages> | null>(null);
+	const timeout = useRef<number | null>(null);
+	const ref = useRef<ComponentRef<typeof Messages> | null>(null);
 
-  return (
-    <div
-      className={
-        "relative grow flex flex-col mx-auto w-full overflow-hidden h-[0px]"
-      }
-    >
-      <VoiceProvider
-        auth={{ type: "accessToken", value: accessToken }}
-        onMessage={() => {
-          if (timeout.current) {
-            window.clearTimeout(timeout.current);
-          }
+	return (
+		<div className="relative flex flex-col">
+			<VoiceProvider
+				auth={{ type: "accessToken", value: accessToken }}
+				verboseTranscription={false}
+				configId="b399b61a-bbe0-462c-ac18-711276358a8b"
+				onMessage={() => {
+					if (timeout.current) {
+						window.clearTimeout(timeout.current);
+					}
 
-          timeout.current = window.setTimeout(() => {
-            if (ref.current) {
-              const scrollHeight = ref.current.scrollHeight;
+					timeout.current = window.setTimeout(() => {
+						if (ref.current) {
+							const scrollHeight = ref.current.scrollHeight;
 
-              ref.current.scrollTo({
-                top: scrollHeight,
-                behavior: "smooth",
-              });
-            }
-          }, 200);
-        }}
-      >
-        <Messages ref={ref} />
-        <Controls />
-        <StartCall />
-      </VoiceProvider>
-    </div>
-  );
+							ref.current.scrollTo({
+								top: scrollHeight,
+								behavior: "smooth",
+							});
+						}
+					}, 200);
+				}}
+			>
+				<div className="h-14">
+					<StartCall />
+				</div>
+				<div className="flex-1">
+					<Messages ref={ref} />
+					<Controls />
+				</div>
+			</VoiceProvider>
+		</div>
+	);
 }
