@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import Script from "next/script";
 import "./globals.css";
 import { cn } from "@/utils";
 
@@ -17,9 +18,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<head>
-				<script
+				<Script
 					src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js"
 					crossOrigin="anonymous"
+					strategy="beforeInteractive"
 				/>
 			</head>
 			<body

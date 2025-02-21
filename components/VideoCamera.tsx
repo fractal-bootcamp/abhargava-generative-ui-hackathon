@@ -68,6 +68,7 @@ export function VideoCamera() {
 	};
 
 	const hasGetUserMedia = () => {
+		// biome-ignore lint/complexity/useOptionalChain: <explanation>
 		return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 	};
 
@@ -188,69 +189,53 @@ export function VideoCamera() {
 			console.log("No landmarks detected in this frame.");
 		}
 
+		// Check for smile
+		// biome-ignore lint/complexity/useOptionalChain: <explanation>
+		if (results.faceBlendshapes && results.faceBlendshapes[0]) {
+			const categories = results.faceBlendshapes[0].categories;
+			const leftSmile =
+				categories.find((c) => c.categoryName === "mouthSmileLeft")?.score || 0;
+			const rightSmile =
+				categories.find((c) => c.categoryName === "mouthSmileRight")?.score ||
+				0;
+
+			if (leftSmile > 0.8 && rightSmile > 0.8) {
+				console.log("Big smile detected! 😊");
+			}
+		}
+
 		// Continue detection loop
 		if (webcamRunning) {
 			requestAnimationFrame(detect);
 		}
 	};
-
-	// Add this useEffect to handle the detection loop
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (detectionRunning) {
 			detect();
 		}
 	}, [detectionRunning]);
 
-	// Add cleanup function to stop webcam when component unmounts
 	useEffect(() => {
 		return () => {
-			if (videoRef.current && videoRef.current.srcObject) {
+			if (videoRef.current?.srcObject) {
 				const stream = videoRef.current.srcObject as MediaStream;
 				const tracks = stream.getTracks();
-				tracks.forEach((track) => track.stop());
+				for (const track of tracks) {
+					track.stop();
+				}
 			}
 		};
 	}, []);
-
-	const takeSnapshot = () => {
-		if (!canvasRef.current || !ctx) return;
-
-		ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-		ctx.drawImage(
-			videoRef.current!,
-			0,
-			0,
-			canvasRef.current.width,
-			canvasRef.current.height,
-		);
-
-		if (faceLandmarker) {
-			const results = faceLandmarker.detectForVideo(
-				videoRef.current!,
-				performance.now(),
-			);
-
-			if (results.faceLandmarks && results.faceLandmarks.length > 0) {
-				results.faceLandmarks.forEach((landmarks) => {
-					drawLandmarks(landmarks, ctx, "#00FF00");
-				});
-			}
-		}
-
-		const dataUrl = canvasRef.current.toDataURL("image/png");
-		const link = document.createElement("a");
-		link.href = dataUrl;
-		link.download = "snapshot.png";
-		link.click();
-	};
 
 	if (!hasGetUserMedia()) {
 		return <div>getUserMedia() is not supported by your browser</div>;
 	}
 
 	return (
-		<div className="relative">
+		<div className="relative flex justify-center items-center">
 			<div className="relative inline-block">
+				{/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
 				<video
 					ref={videoRef}
 					id="webcam"
@@ -260,6 +245,7 @@ export function VideoCamera() {
 						position: "relative",
 						zIndex: 5,
 					}}
+					className="rounded-lg"
 					autoPlay
 					playsInline
 				/>
@@ -276,16 +262,6 @@ export function VideoCamera() {
 					}}
 				/>
 			</div>
-			<button
-				onClick={takeSnapshot}
-				className="bg-[#F16B5E] text-white font-bold py-3 px-10 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 ease-in-out mt-5"
-				style={{
-					boxShadow:
-						"5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(255, 255, 255, 0.2)",
-				}}
-			>
-				Take Snapshot
-			</button>
 		</div>
 	);
 }
