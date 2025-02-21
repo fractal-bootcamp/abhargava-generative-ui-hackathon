@@ -16,7 +16,7 @@ export function ConfigDropdown() {
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="outline"
-					className="flex items-center gap-1.5 h-10 px-4 bg-black text-white hover:bg-black/90 appearance-none"
+					className="flex items-center gap-1.5 h-10 px-4 bg-black text-white hover:bg-black/90 hover:text-white appearance-none"
 				>
 					<Settings
 						className="size-4 opacity-50"

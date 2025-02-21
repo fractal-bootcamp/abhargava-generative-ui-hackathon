@@ -23,6 +23,7 @@ export default function ClientComponent({
 	const timeout = useRef<number | null>(null);
 	const ref = useRef<ComponentRef<typeof Messages> | null>(null);
 	const configId = useGameStore((state) => state.currentConfigId);
+	console.log(configId);
 
 	return (
 		<div className="relative flex flex-col max-w-full">
