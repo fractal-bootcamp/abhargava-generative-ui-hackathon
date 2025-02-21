@@ -1,5 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { VideoCamera } from "@/components/VideoCamera";
+import { GameOverDrawer } from "@/components/GameOverDrawer";
+
 export default async function Page() {
 	return (
 		<div className="grow flex">
@@ -14,6 +16,7 @@ export default async function Page() {
 					<VideoCamera />
 				</div>
 			</div>
+			<GameOverDrawer />
 		</div>
 	);
 }

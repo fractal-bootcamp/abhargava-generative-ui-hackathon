@@ -6,6 +6,7 @@ import {
 	FilesetResolver,
 	DrawingUtils,
 } from "@mediapipe/tasks-vision";
+import { useGameStore } from "./store/useGameStore";
 
 export function VideoCamera() {
 	const videoRef = useRef<HTMLVideoElement>(null);
@@ -17,6 +18,7 @@ export function VideoCamera() {
 	const [webcamRunning, setWebcamRunning] = useState(false);
 	const [detectionRunning, setDetectionRunning] = useState(false);
 	const [drawingUtils, setDrawingUtils] = useState<DrawingUtils | null>(null);
+	const { smileCount, isGameOver, incrementSmile, resetGame } = useGameStore();
 
 	// Initialize the FaceLandmarker when the component mounts
 	useEffect(() => {
@@ -199,8 +201,9 @@ export function VideoCamera() {
 				categories.find((c) => c.categoryName === "mouthSmileRight")?.score ||
 				0;
 
-			if (leftSmile > 0.8 && rightSmile > 0.8) {
-				console.log("Big smile detected! 😊");
+			if (leftSmile > 0.8 && rightSmile > 0.9) {
+				console.log("Big smile detected! ��");
+				incrementSmile();
 			}
 		}
 
@@ -261,6 +264,9 @@ export function VideoCamera() {
 						height: "100%",
 					}}
 				/>
+			</div>
+			<div className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded">
+				Smiles: {smileCount}/100
 			</div>
 		</div>
 	);
